@@ -115,34 +115,6 @@ return {
     {
       type = "objectgroup",
       draworder = "topdown",
-      id = 5,
-      name = "Jump",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      parallaxx = 1,
-      parallaxy = 1,
-      properties = {},
-      objects = {
-        {
-          id = 81,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 530.063,
-          y = 376.938,
-          width = 11.8125,
-          height = 1.9375,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        }
-      }
-    },
-    {
-      type = "objectgroup",
-      draworder = "topdown",
       id = 2,
       name = "Solids",
       visible = true,
@@ -652,9 +624,9 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 544,
+          x = 544.636,
           y = 272,
-          width = 16,
+          width = 15.3636,
           height = 112,
           rotation = 0,
           visible = true,
@@ -864,19 +836,6 @@ return {
           y = 223.818,
           width = 28.1818,
           height = 8.27273,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 82,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 528.938,
-          y = 377.938,
-          width = 0.8125,
-          height = 3,
           rotation = 0,
           visible = true,
           properties = {}

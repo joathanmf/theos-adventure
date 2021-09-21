@@ -17,8 +17,8 @@ function Jump:init()
 end
 
 function Jump:update(dt)
-  if collides(self, player, 10) and self.jump == false then
-    player:jump(2)
+  if collides(self, player, 9) and self.jump == false then
+    player:jump(1.5)
     self.cur_animation = self.animations.jump
     self.jump = true
     self.cur_animation = self.animations.pmuj
