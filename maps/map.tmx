@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="116">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="123">
  <editorsettings>
   <export target="map.lua" format="lua"/>
  </editorsettings>
@@ -36,7 +36,12 @@
 </data>
  </layer>
  <objectgroup id="6" name="Win">
-  <object id="86" x="736" y="352" width="48" height="16"/>
+  <object id="86" x="744" y="352.091" width="7.72727" height="7.72727"/>
+  <object id="118" x="736" y="352" width="7.72727" height="7.72727"/>
+  <object id="119" x="767.364" y="351.909" width="7.72727" height="7.72727"/>
+  <object id="120" x="751.864" y="352.045" width="7.72727" height="7.72727"/>
+  <object id="121" x="759.591" y="351.864" width="7.72727" height="7.72727"/>
+  <object id="122" x="775.227" y="352.045" width="8.45454" height="7.72727"/>
  </objectgroup>
  <objectgroup id="2" name="Solids">
   <object id="1" x="240" y="16" width="368" height="16"/>

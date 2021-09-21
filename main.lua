@@ -51,12 +51,6 @@ function love.load()
   jump = Jump()
   player = Player(world)
 
-  coins = {}
-  for _, c in ipairs(map.game_map.layers['Coins'].objects) do
-    local coin = Coins(world, c.x, c.y)
-    table.insert(coins, coin)
-  end
-
   spikes = {}
   for _, s in ipairs(map.game_map.layers['Spikes'].objects) do
     local spike = {x = s.x, y = s.y}
@@ -73,6 +67,12 @@ function love.load()
   for _, le in ipairs(map.game_map.layers['Limit Enemies'].objects) do
     local lenemy = {x = le.x, y = le.y}
     table.insert(lim_enemy, lenemy)
+  end
+
+  win_boxes = {}
+  for _, w in ipairs(map.game_map.layers['Win'].objects) do
+    local win = {x = w.x, y = w.y}
+    table.insert(win_boxes, win)
   end
 end
 
@@ -106,6 +106,18 @@ function love.update(dt)
       if collides(s, player, 10) and player.isDead == false then
         player.life = 0
       end
+    end
+
+    for _, w in ipairs(win_boxes) do
+      if collides(w, player, 20) then
+        state_2 = 'won'
+      end
+    end
+  else
+    coins = {}
+    for _, c in ipairs(map.game_map.layers['Coins'].objects) do
+      local coin = Coins(world, c.x, c.y)
+      table.insert(coins, coin)
     end
   end
 end
@@ -141,18 +153,14 @@ function love.draw()
       e:draw()
     end
 
-    cam:lookAt(player.x+450, player.y+200)
+    if state_2 == 'won' then
+      cam:lookAt(player.x+280, player.y+280)
+    else
+      cam:lookAt(player.x+450, player.y+200)
+    end
 
     cam:detach()
     push:finish()
-
-    for i = 1, player.life do
-      love.graphics.draw(heart, 10*(i/0.4), 20, 0, 0.7, 0.7, 8, 8)
-    end
-
-    love.graphics.setColor(207/255, 198/255, 184/255)
-    love.graphics.draw(coin_hud, 30, 60, 0, 1.4, 1.4, 8, 8)
-    love.graphics.printf(player.score .. '/7', 47, 40, 100, 'left')
 
     if player.isDead then
       love.graphics.setFont(big_pixel)
@@ -160,20 +168,40 @@ function love.draw()
       love.graphics.printf("GAME OVER\nPress ENTER to Continue", 23, window_height/2-97, window_width-17, 'center')
       love.graphics.setColor(207/255, 198/255, 184/255)
       love.graphics.printf("GAME OVER\nPress ENTER to Continue", 20, window_height/2-100, window_width-20, 'center')
-    end
-  elseif state == 'won' then
+    elseif state_2 == 'won' then
+      love.graphics.setFont(big_pixel)
+      love.graphics.setColor(0, 0, 0)
+      love.graphics.printf("You WON\nPress ENTER to Continue", 23, window_height/2-160, window_width-17, 'center')
+      love.graphics.setColor(207/255, 198/255, 184/255)
+      love.graphics.printf("You WON\nPress ENTER to Continue", 20, window_height/2-163, window_width-20, 'center')
+      love.graphics.setFont(normal_pixel)
+      love.graphics.printf("Try to Collect All Coins", 20, window_height/2+50, window_width-20, 'center')
+      love.graphics.draw(coin_hud, window_width/2-30, window_height/2+142, 0, 3, 3, 8, 8)
+      love.graphics.printf(player.score .. '/7', window_width/2, window_height/2+110, 100, 'left')
 
+    else
+      for i = 1, player.life do
+        love.graphics.draw(heart, 10*(i/0.4), 20, 0, 0.7, 0.7, 8, 8)
+      end
+
+      love.graphics.setColor(207/255, 198/255, 184/255)
+      love.graphics.draw(coin_hud, 30, 60, 0, 1.4, 1.4, 8, 8)
+      love.graphics.setFont(small_pixel)
+      love.graphics.printf(player.score .. '/7', 47, 40, 100, 'left')
+    end
   end
 end
 
 function love.keypressed(key)
   if key == 'w' then
     player:jump(1)
-  elseif key == 'return' and state == 'play' and player.isDead then
+  elseif key == 'return' and ((state == 'play' and player.isDead) or state_2 == 'won') then
+    state_2 = 'not_won'
     state = 'menu'
     player.isDead = false
     player.life = 3
     player.score = 0
+    player.speed = 100
     player.body:setX(110)
     player.body:setY(290)
     player.grounded = false
