@@ -12,20 +12,32 @@ function Player:init(world)
   self.grounded = false
   self.direction = 1
   self.score = 0
+  self.life = 3
   self.isDead = false
   g = anim8.newGrid(self.w, self.h, self.spritesheet:getWidth(), self.spritesheet:getHeight())
   self.animations = {}
-  self.animations.idle = anim8.newAnimation(g('1-13', 1), 0.1)
+  self.animations.idle = anim8.newAnimation(g('1-13', 1), 0.2)
   self.animations.run = anim8.newAnimation(g('1-8', 2), 0.1)
   self.animations.jump = anim8.newAnimation(g('3-5', 6), 0.2)
   self.animations.hit = anim8.newAnimation(g('1-4', 7), 0.2)
   self.animations.dead = anim8.newAnimation(g('1-7', 8), 0.1)
+  self.animations.dead_final = anim8.newAnimation(g('7-7', 8), 0.1)
   self.cur_animation = self.animations.idle
   self.body = world:newBSGRectangleCollider(self.x, self.y, self.cw, self.h-10, 1, {collision_class = 'Player'})
   self.body:setFixedRotation(true)
 end
 
 function Player:update(dt)
+  if self.life <= 0 and self.life > -40 then
+    self.cur_animation = self.animations.dead
+    self.isDead = true
+    self.cur_animation:update(dt)
+    self.life = self.life - 1
+    if self.life == -40 then
+      self.cur_animation = self.animations.dead_final
+    end
+  end
+
   if not self.isDead then
     self.x, self.y = self.body:getPosition()
 
@@ -60,13 +72,11 @@ function Player:update(dt)
 end
 
 function Player:draw()
-  if not self.isDead then
-    self.cur_animation:draw(self.spritesheet, self.body:getX(), self.body:getY()-5, 0, self.direction, 1, self.w/2, self.h/2-1)
-  end
+  self.cur_animation:draw(self.spritesheet, self.body:getX(), self.body:getY()-5, 0, self.direction, 1, self.w/2, self.h/2-1)
 end
 
 function Player:jump(force)
   if self.grounded and not self.isDead then
-    self.body:applyLinearImpulse(0, -250*force)
+    self.body:applyLinearImpulse(0, -235*force)
   end
 end
