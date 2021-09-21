@@ -13,6 +13,7 @@ require 'Map'
 require 'Player'
 -- require 'Enemy'
 require 'Coins'
+require 'Jump'
 
 function love.load()
   love.window.setTitle("Theo's Adventures")
@@ -23,14 +24,20 @@ function love.load()
   -- world:setQueryDebugDrawing(true)
 
   cam = Camera()
-
   map = Map(world)
   player = Player(world)
+  jump = Jump()
 
   coins = {}
   for _, c in ipairs(map.game_map.layers['Coins'].objects) do
     local coin = Coins(world, c.x, c.y)
     table.insert(coins, coin)
+  end
+
+  spikes = {}
+  for _, s in ipairs(map.game_map.layers['Spikes'].objects) do
+    local spike = {x = s.x, y = s.y}
+    table.insert(spikes, spike)
   end
 end
 
@@ -38,15 +45,21 @@ function love.update(dt)
   world:update(dt)
   map:update(dt)
   player:update(dt)
+  jump:update(dt)
 
   local cont = 1
   for _, c in ipairs(coins) do
-    c:update(dt)
-    if collides(c, player, 20) then
+    if collides(c, player, 15) then
       table.remove(coins, cont)
       player.score = player.score + 1
     end
     cont = cont + 1
+  end
+
+  for _, s in ipairs(spikes) do
+    if collides(s, player, 10) then
+      player.isDead = true
+    end
   end
 end
 
@@ -60,6 +73,7 @@ function love.draw()
   for _, c in ipairs(coins) do
     c:draw()
   end
+  jump:draw()
   player:draw()
 
   -- world:draw()
@@ -74,7 +88,7 @@ end
 
 function love.keypressed(key)
   if key == 'w' then
-    player:jump()
+    player:jump(1)
   end
 end
 

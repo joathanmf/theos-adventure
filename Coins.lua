@@ -8,9 +8,6 @@ function Coins:init(world, x, y)
   self.y = y
 end
 
-function Coins:update(dt)
-end
-
 function Coins:draw()
   love.graphics.draw(self.sprite, self.x, self.y)
 end

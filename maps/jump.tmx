@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="3" height="1" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="map" tilewidth="16" tileheight="16" tilecount="1056" columns="48">
+  <image source="colored_packed.png" width="768" height="352"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="3" height="1">
+  <data encoding="csv">
+262,263,264
+</data>
+ </layer>
+</map>
