@@ -21,7 +21,7 @@ function Player:init(world)
   self.animations.hit = anim8.newAnimation(g('1-4', 7), 0.2)
   self.animations.dead = anim8.newAnimation(g('1-7', 8), 0.1)
   self.cur_animation = self.animations.idle
-  self.body = world:newBSGRectangleCollider(self.x, self.y, self.cw, self.h-10, 1)
+  self.body = world:newBSGRectangleCollider(self.x, self.y, self.cw, self.h-10, 1, {collision_class = 'Player'})
   self.body:setFixedRotation(true)
 end
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="6" height="3" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="map" tilewidth="16" tileheight="16" tilecount="1056" columns="48">
+  <image source="colored_packed.png" width="768" height="352"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="6" height="3">
+  <data encoding="csv">
+355,356,357,358,359,360,
+403,404,405,406,407,408,
+451,452,453,454,455,456
+</data>
+ </layer>
+</map>

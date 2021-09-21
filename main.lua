@@ -11,7 +11,7 @@ wf = require 'lib/windfield'
 
 require 'Map'
 require 'Player'
--- require 'Enemy'
+require 'Enemy'
 require 'Coins'
 require 'Jump'
 
@@ -22,11 +22,13 @@ function love.load()
 
   world = wf.newWorld(0, 1000, false)
   -- world:setQueryDebugDrawing(true)
+  world:addCollisionClass('Player')
+  -- world:addCollisionClass('Enemy')
 
   cam = Camera()
   map = Map(world)
-  player = Player(world)
   jump = Jump()
+  player = Player(world)
 
   coins = {}
   for _, c in ipairs(map.game_map.layers['Coins'].objects) do
@@ -39,13 +41,28 @@ function love.load()
     local spike = {x = s.x, y = s.y}
     table.insert(spikes, spike)
   end
+
+  enemies = {}
+  for _, e in ipairs(map.game_map.layers['Enemies'].objects) do
+    local enemy = Enemy(world, e.x, e.y)
+    table.insert(enemies, enemy)
+  end
+
+  lim_enemy = {}
+  for _, le in ipairs(map.game_map.layers['Limit Enemies'].objects) do
+    local lenemy = {x = le.x, y = le.y}
+    table.insert(lim_enemy, lenemy)
+  end
 end
 
 function love.update(dt)
   world:update(dt)
   map:update(dt)
-  player:update(dt)
   jump:update(dt)
+  player:update(dt)
+  for _, e in ipairs(enemies) do
+    e:update(dt)
+  end
 
   local cont = 1
   for _, c in ipairs(coins) do
@@ -75,6 +92,9 @@ function love.draw()
   end
   jump:draw()
   player:draw()
+  for _, e in ipairs(enemies) do
+    e:draw()
+  end
 
   -- world:draw()
 
