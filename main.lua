@@ -109,7 +109,8 @@ function love.update(dt)
     end
 
     for _, w in ipairs(win_boxes) do
-      if collides(w, player, 20) then
+      if collides(w, player, 20) and state_2 ~= 'won' then
+        love.audio.play(sounds.win)
         state_2 = 'won'
       end
     end
@@ -136,9 +137,10 @@ function love.draw()
     love.graphics.draw(crown, window_width/2, window_height/2-150, 0, 10, 10, 8, 8)
     love.graphics.setColor(207/255, 198/255, 184/255)
     love.graphics.setFont(small_pixel)
-    love.graphics.printf('Joathan Mareto', window_width-190, window_height-45, 190, 'center')
+    love.graphics.printf('Joathan Mareto', window_width-195, 5, 190, 'center')
     love.graphics.printf('Music: The White Lady (Hollow Knight)', 20, window_height-90, 600, 'left')
     love.graphics.printf('[M] to Mute or Unmute Music', 20, window_height-45, 500, 'left')
+    love.graphics.printf('[W] to Jump | [A and D] to Move', window_width-440, window_height-45, 490, 'center')
   elseif state == 'play' then
     push:start()
     cam:attach()
@@ -153,11 +155,7 @@ function love.draw()
       e:draw()
     end
 
-    if state_2 == 'won' then
-      cam:lookAt(player.x+280, player.y+280)
-    else
-      cam:lookAt(player.x+450, player.y+200)
-    end
+    cam:lookAt(player.x+450, player.y+200)
 
     cam:detach()
     push:finish()
@@ -175,7 +173,9 @@ function love.draw()
       love.graphics.setColor(207/255, 198/255, 184/255)
       love.graphics.printf("You WON\nPress ENTER to Continue", 20, window_height/2-163, window_width-20, 'center')
       love.graphics.setFont(normal_pixel)
-      love.graphics.printf("Try to Collect All Coins", 20, window_height/2+50, window_width-20, 'center')
+      if player.score < 7 then
+        love.graphics.printf("Try to Collect All Coins", 20, window_height/2+50, window_width-20, 'center')
+      end
       love.graphics.draw(coin_hud, window_width/2-30, window_height/2+142, 0, 3, 3, 8, 8)
       love.graphics.printf(player.score .. '/7', window_width/2, window_height/2+110, 100, 'left')
 
