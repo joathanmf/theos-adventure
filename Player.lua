@@ -6,7 +6,7 @@ function Player:init(world)
   self.w = self.spritesheet:getWidth()/13
   self.h = self.spritesheet:getHeight()/16
   self.cw = self.w - 15
-  self.x = 100
+  self.x = 110
   self.y = 290
   self.speed = 100
   self.grounded = false
@@ -29,6 +29,9 @@ end
 
 function Player:update(dt)
   if self.life <= 0 and self.life > -40 then
+    if self.life == 0 then
+      love.audio.play(sounds.lose)
+    end
     self.cur_animation = self.animations.dead
     self.isDead = true
     self.cur_animation:update(dt)
@@ -77,6 +80,7 @@ end
 
 function Player:jump(force)
   if self.grounded and not self.isDead then
+    love.audio.play(sounds.jump)
     self.body:applyLinearImpulse(0, -235*force)
   end
 end

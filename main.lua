@@ -25,10 +25,21 @@ function love.load()
   big_pixel = love.graphics.newFont('menu/pixel.otf', 70)
 
   crown = love.graphics.newImage('maps/crown.png')
-  bg_music = love.audio.newSource('bg_music.mp3', 'stream')
+  coin_hud = love.graphics.newImage('maps/coin_hud.png')
+  heart = love.graphics.newImage('player/life.png')
+
+  bg_music = love.audio.newSource('sounds/bg_music.mp3', 'stream')
   love.audio.play(bg_music)
   love.audio.setVolume(0.06)
   music_state = true
+
+  sounds = {
+    win = love.audio.newSource('sounds/win.wav', 'stream'),
+    lose = love.audio.newSource('sounds/lose.wav', 'stream'),
+    hit = love.audio.newSource('sounds/hit.wav', 'stream'),
+    coin = love.audio.newSource('sounds/coin.wav', 'stream'),
+    jump = love.audio.newSource('sounds/jump.wav', 'stream')
+  }
 
   state = 'menu'
 
@@ -85,6 +96,7 @@ function love.update(dt)
     for _, c in ipairs(coins) do
       if collides(c, player, 15) then
         table.remove(coins, cont)
+        love.audio.play(sounds.coin)
         player.score = player.score + 1
       end
       cont = cont + 1
@@ -134,6 +146,14 @@ function love.draw()
     cam:detach()
     push:finish()
 
+    for i = 1, player.life do
+      love.graphics.draw(heart, 10*(i/0.4), 20, 0, 0.7, 0.7, 8, 8)
+    end
+
+    love.graphics.setColor(207/255, 198/255, 184/255)
+    love.graphics.draw(coin_hud, 30, 60, 0, 1.4, 1.4, 8, 8)
+    love.graphics.printf(player.score .. '/7', 47, 40, 100, 'left')
+
     if player.isDead then
       love.graphics.setFont(big_pixel)
       love.graphics.setColor(0, 0, 0)
@@ -154,7 +174,7 @@ function love.keypressed(key)
     player.isDead = false
     player.life = 3
     player.score = 0
-    player.body:setX(100)
+    player.body:setX(110)
     player.body:setY(290)
     player.grounded = false
     player.direction = 1

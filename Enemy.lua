@@ -28,6 +28,7 @@ function Enemy:update(dt)
   self.animations.walk:update(dt)
 
   if self.body:enter('Player') then
+    love.audio.play(sounds.hit)
     player.life = player.life - 1
     player.cur_animation = player.animations.hit
     player.body:applyLinearImpulse(-130*player.direction, -130)
